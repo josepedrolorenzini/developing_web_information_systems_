@@ -39,7 +39,7 @@
                         <a class="nav-link" href="./history.php">Employee History</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="department_information.php">Department Information</a>
+                        <a class="nav-link" href="./department_information.php">Department Information</a>
                     </li>
                 </ul>
             </div>

@@ -22,6 +22,11 @@
         public $dept_id;
         public $department_dept_id;
 
+
+        public $name_search;
+        public $job_search;
+        public $department_search;
+
         // Db connection
         public function __construct($db){
             $this->conn = $db;
@@ -29,31 +34,13 @@
 
         // GET ALL
         public function getEmployees(){
-            $query = "SELECT * FROM " . $this->db_table . "";
+            $query = "SELECT t.*,tj.job_desc, td.dept_name FROM " . $this->db_table . " t
+                        LEFT JOIN job tj ON (t.job_code = tj.job_code)
+                        LEFT JOIN department td ON (td.dept_id = t.dept_id) ";
             $stmt  = $this->conn->prepare($query);
             $stmt->execute();
             $res   = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $res;
-        }
-
-       // get one
-        public function getOneEmployees(){
-            $query = "SELECT * FROM  employee WHERE emp_num = :emp_num ";
-            $stmt  = $this->conn->prepare($query);
-            $stmt->execute(['emp_num' => $this->emp_num]);
-            $res   = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $res;
-        }
-
-        //employee dept
-        function getEmployeeDept(){
-            $query =  "SELECT department.dept_id , employee.first_name, employee.last_name ,department.dept_name , department.emp_num  , department.date_assign 
-            FROM  department LEFT JOIN " . $this->db_table . "  ON department.dept_id  = employee.dept_id  ";
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
-        
         }
 
         // GET FOR EMP_NUM
@@ -68,17 +55,17 @@
 
             $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            $this->first_name   = $dataRow['first_name'];
-            $this->last_name    = $dataRow['last_name'];
-            $this->birth_date   = $dataRow['birth_date'];
-            $this->sex          = $dataRow['sex'];
-            $this->date_assign  = $dataRow['date_assign'];
-            $this->dept_name    = $dataRow['dept_name'];
-            $this->job_desc     = $dataRow['job_desc'];
-            $this->emp_salary   = $dataRow['emp_salary'];
+            $this->first_name   = $dataRow['first_name'] ?? '';
+            $this->last_name    = $dataRow['last_name'] ?? '';
+            $this->birth_date   = $dataRow['birth_date'] ?? '';
+            $this->sex          = $dataRow['sex'] ?? '';
+            $this->date_assign  = $dataRow['date_assign'] ?? '';
+            $this->dept_name    = $dataRow['dept_name'] ?? '';
+            $this->job_desc     = $dataRow['job_desc'] ?? '';
+            $this->emp_salary   = $dataRow['emp_salary'] ?? '';
 
-            $this->job_code     = $dataRow['job_code'];
-            $this->dept_id      = $dataRow['dept_id'];
+            $this->job_code     = $dataRow['job_code'] ?? null;
+            $this->dept_id      = $dataRow['dept_id'] ?? null;
             
             return $stmt->rowCount();
         }  
@@ -165,6 +152,28 @@
                return true;
             }
             return false;
+        }
+
+        //SEARCH
+        public function searchEmployees(){
+            $query = "SELECT t.*,tj.job_desc, td.dept_name FROM " . $this->db_table . " t
+                        LEFT JOIN job tj ON (t.job_code = tj.job_code)
+                        LEFT JOIN department td ON (td.dept_id = t.dept_id) 
+                        WHERE 1";
+            if($this->name_search != ''){
+                $query .= " AND (t.first_name like '%".$this->name_search ."%' 
+                            OR t.last_name like '%".$this->name_search ."%') ";
+            }
+            if($this->job_search != ''){
+                $query .= " AND tj.job_desc = '".$this->job_search."' ";
+            }
+            if($this->department_search != ''){
+                $query .= " AND t.dept_id IN ('".$this->department_search."') ";
+            }
+            $stmt  = $this->conn->prepare($query);
+            $stmt->execute();
+            $res   = $stmt->fetchAll(PDO::FETCH_ASSOC) ?? array();
+            return $res;
         }
     }
 ?>

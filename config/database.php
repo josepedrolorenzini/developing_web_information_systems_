@@ -6,7 +6,6 @@ class Database
     private $database = "amaz";
     private $username = "root";
     private $password = "";
-   // private $port     = "8889";
     private $charset  = "utf8";
 
     function getConnection()

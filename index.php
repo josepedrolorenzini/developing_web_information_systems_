@@ -1,3 +1,5 @@
+
+
 <?php
 // require 'config/database.php';
 // require 'models/employee.php';
@@ -49,7 +51,7 @@
                     <strong class="text-gray-dark">Jose Lorenzini</strong>
                     <a href="#">Follow</a>
                 </div>
-                <span class="d-block">Web developer</span>
+                <span class="d-block">Trabajo en todo el proyecto</span>
             </div>
         </div>
         <div class="d-flex text-muted pt-3">
@@ -61,10 +63,10 @@
 
             <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
                 <div class="d-flex justify-content-between">
-                    <strong class="text-gray-dark">Pedro Arancibia</strong>
+                    <strong class="text-gray-dark">Luis Huaymana</strong>
                     <a href="#">Follow</a>
                 </div>
-                <span class="d-block">BackEnd</span>
+                <span class="d-block">Trabajo en todo el proyecto</span>
             </div>
         </div>
     </div>

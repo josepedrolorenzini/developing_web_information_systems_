@@ -1,8 +1,9 @@
 <?php include "view/header.php"; ?>
 <?php
 
-$notfound = 0; 
+$alert = ''; 
 if(isset($_POST['emp_num'])){
+
 
     require 'config/database.php';
     require 'models/employee.php';
@@ -18,10 +19,10 @@ if(isset($_POST['emp_num'])){
         exit;
     }
     else{
-        $notfound= 1;
         $employee->emp_num=null ;
-        header('Location: employee.php?emp_num=null'.$employee->emp_num . '&notfound='.$notfound);
+        $alert = 'Employee number is not valid';
     }
+    
 }
 
 ?>
@@ -58,10 +59,10 @@ if(isset($_POST['emp_num'])){
                 </div>
             </form>
         </div>
-        <?php if(isset($_GET['notfound']) >0){ ?>
+        <?php if($alert != ''){ ?>
             <div class="d-flex">
                 <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                    <?php echo "Employee number is not valid"; ?>
+                    <?php echo $alert; ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>

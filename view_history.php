@@ -44,7 +44,7 @@ else{
         <div class="d-flex text-muted pt-3">
             <p class="pb-3 mb-0 small lh-sm">
                 <strong class="d-block text-gray-dark"> Employee : <?php echo $employee->first_name.' '.$employee->last_name ; ?></strong>
-                Add information Employee
+                add information empployee
             </p>
         </div>
     </div>

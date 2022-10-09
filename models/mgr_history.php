@@ -13,6 +13,8 @@
         public $date_assign;
         public $employee_emp_num;
 
+        public $join_dept_id;
+
         // Db connection
         public function __construct($db){
             $this->conn = $db;
@@ -46,6 +48,18 @@
                return true;
             }
             return false;
+        }
+
+        public function getMgrHistory(){
+            $query = "SELECT e.first_name, e.last_name, d.dept_name, t.date_assign FROM ". $this->db_table ." t
+            left join employee e on e.emp_num = t.emp_num 
+            left join department d on d.dept_id = t.dept_id
+            WHERE t.dept_id = ".$this->join_dept_id;
+
+            $stmt  = $this->conn->prepare($query);
+            $stmt->execute();
+            $res   = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $res;
         }
     }
 ?>

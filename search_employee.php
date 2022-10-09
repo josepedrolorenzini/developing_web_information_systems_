@@ -1,5 +1,47 @@
 <?php include "view/header.php"; ?>
+<?php
 
+
+    require 'config/database.php';
+    require 'models/employee.php';
+    require 'models/department.php';
+
+    $db     = new Database();
+    $dbcon  = $db->getConnection(); 
+
+    $departments        = new Department($dbcon);
+    $array_departments  = $departments->getDepartments();
+
+
+    $employee  = new Employee($dbcon); 
+
+    if(isset($_POST['inital_search']) || isset($_GET['dept_id'])){
+
+        if(isset($_POST['name_search']) && $_POST['name_search']  != ''){
+            $employee->name_search = $_POST['name_search'];
+        }
+        if(isset($_POST['job_search']) && $_POST['job_search'] != ''){
+            $employee->job_search = $_POST['job_search'];
+        }
+
+        if(isset($_POST['department_search'])){
+            $department_search = implode(',',$_POST['department_search']);
+
+            if($department_search != ''){
+                $employee->department_search = $department_search;
+            }
+        }
+
+
+        if(isset($_GET['dept_id'])!= ''){
+            $employee->department_search = $_GET['dept_id'];
+        }
+
+    }
+
+    $employees = $employee->searchEmployees();
+     
+?>
 
 <main class="container">
     <?php 
@@ -11,15 +53,66 @@
     <?php include "view/content.php" ?>
 
     <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <div class="container-fluid">
-        <form class="form-inline my-2 my-lg-0">
-        <div class="form-group">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchbar">
+        <div class="text-muted">
+            <form class="row" method="post">
+                <input type="hidden" name="inital_search">
+                <div class="col-md-6 pt-3">
+                    <label class="form-label">Name employee</label>
+                    <input type="text" class="form-control" name="name_search">
+                </div>
+                <div class="col-md-6 pt-3">
+                    <label class="form-label">Job</label>
+                    <input type="text" class="form-control" name="job_search">
+                </div>
+                <div class="col-md-6 pt-3">   
+                    <label class="form-label">Department</label>      
+                        <?php   foreach ($array_departments as $depts) { ?>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="<?php echo $depts['dept_id']?>" name="department_search[]" <?php if(isset($_GET['dept_id']) && $_GET['dept_id'] == $depts['dept_id']){ echo 'checked';}?>>
+                                            <label class="form-check-label">
+                                                <?php echo $depts['dept_name']?></option>
+                                            </label>
+                                        </div>
+                        <?php   }?>
+                </div>
+
+                <div class="col-md-6 pt-3 row align-items-end">
+                    <button type="submit" class="btn btn-primary col-md-2 m-2">Submit</button>
+                </div>
+            </form>
         </div>
-        <div class="col-12 padding16">
-      <button class="btn btn-primary" type="submit" name="searchSubmit">Search</button>
-        </div>
-    </form>
+        <div class="d-flex text-muted pt-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Employee number</th>
+                        <th scope="col">First name</th>
+                        <th scope="col">Last name</th>
+                        <th scope="col">Job</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">View</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">History</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <?php foreach ($employees as $emp) {
+                    ?>
+                       <tr>
+                            <th scope="row"><?php echo $emp['emp_num'];?></th>
+                            <td><?php echo $emp['first_name'];?></td>
+                            <td><?php echo $emp['last_name'];?></td>
+                            <td><?php echo $emp['job_desc'];?></td>
+                            <td><?php echo $emp['dept_name'];?></td>
+                            <td><a href="./view_employee.php?emp_num=<?php echo $emp['emp_num'];?>" target="_blank">View</a></td>
+                            <td><a href="./edit_employee.php?emp_num=<?php echo $emp['emp_num'];?>" target="_blank">Edit</a></td>
+                            <td><a href="./view_history.php?emp_num=<?php echo $emp['emp_num'];?>" target="_blank">History</a></td>
+                        </tr>      
+                    <?php
+                        }
+                    ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </main>

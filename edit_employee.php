@@ -112,7 +112,7 @@ else{
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
                                 <h6 class="my-0">Employee History</h6>
-                                <small class="text-muted"><a href="./view_history_employee.php?emp_num=<?php echo $employee->emp_num; ?>" class="text-decoration-none">
+                                <small class="text-muted"><a href="./view_history.php?emp_num=<?php echo $employee->emp_num; ?>" class="text-decoration-none">
                                     View employee history
                                     </a>
                                 </small>
