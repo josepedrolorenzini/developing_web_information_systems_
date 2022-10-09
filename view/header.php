@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Admin - Amazing Engineers</title>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link href="./assets/bootstrap-v5.2/css/bootstrap.min.css" rel="stylesheet" />
     <link href="./assets/css/custom.css" rel="stylesheet" />
 </head>

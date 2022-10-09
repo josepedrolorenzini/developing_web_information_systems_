@@ -10,8 +10,8 @@
     <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
     <div>
                 <i class="bi bi-facebook" style="font-size: 30px"></i>
-                <i class="bi bi-github" style="font-size: 30px"></i>
-                <i class="bi bi-twitter" style="font-size: 30px"></i>
+                <a href="https://github.com/josepedrolorenzini/developing_web_information_systems_"><i class="bi bi-github" style="font-size: 30px"></i></a> 
+                <a href="https://mobile.twitter.com/mexicancoding6" ><i class="bi bi-twitter" style="font-size: 30px"></i></a>
                 <i class="bi bi-google" style="font-size: 30px"></i>
                 <i class="bi bi-instagram" style="font-size: 30px"></i>
             </div>
